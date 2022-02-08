@@ -1,0 +1,47 @@
+%{
+unsigned int parNum = 0;
+unsigned int i = 0, j = 0;
+%}
+leftPar	[{]
+rightPar	\n[}]
+notOne	\n\t
+eol		\n
+%%
+{leftPar}		{ parNum++;printf("{"); }
+{rightPar}	{ parNum--;
+			  printf("\n"); 
+			  for ( i = 0 ; i < parNum ; i++ ) {
+		 	  	printf("\t");
+			  }  
+			  printf("}"); 
+			}
+{notOne}	{ printf("\n"); 
+			 for ( i = 0 ; i < parNum ; i++ ) {
+		 	  	printf("\t");
+			  } 
+			}
+{eol}		{ printf("\n"); 
+			   for ( i = 0 ; i < parNum ; i++ ) {
+		 	  	printf("\t");
+			   }  
+			}
+%%
+int main ( int argc, char *argv[] ) {
+	yylex();
+	return(0);
+}
+
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+How to compile:
+$ flex –o lex.yy.c wordcount.l
+$ gcc –o wordcount lex.yy.c -lfl
+
+Run the program:
+$ cat input.txt | ./ wordcount
+or
+$ ./ wordcount < input.txt
+
+
